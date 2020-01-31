@@ -7,6 +7,7 @@ using namespace std;
 void freadnames(ifstream &, char * []);
 void fwritenames_reverse(ofstream &,char * []);
 void freenames(char * []);
+string convertToString(char *x, int size);
 
 
 int main(int argc, char *argv[])
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
 	}
 
 	ofstream fout(argv[2]);
-	if(fin.fail()){
+	if(fout.fail()){
 		cerr << "Cannot open the output file!" << endl;
 		return 1;
 	}
@@ -42,16 +43,22 @@ int main(int argc, char *argv[])
 
 void freadnames(ifstream &f,char *list [])
 {
+    int size = 200;
 	char x[200];
-
 	int i = 0;
 
-	// write a while loop to reads string form the file and put it in x till the end file
+	// write a while loop to read one string from the input file and put it in x till the end file
 		// inside the loop allocate the dynamic array for list[i]
-		// copy string in x to list[i] array
+		// copy string stored in x to list[i] array using strcpy
 		// increment i 
+    while(f >> x){ 
+        list[i] = new char[strlen(x)+1]; 
+		strcpy(list[i],x);
+        i++; 
+    }
 
-	list[i] = nullptr;  // We put the null to the last pointer to mark that the last element in list
+	list[i] = nullptr;  // IMPORTANT: we put the null to the last pointer in list to mark the last element in list
+
 }
 void fwritenames_reverse(ofstream &f,char *list [])
 {
@@ -61,7 +68,7 @@ void fwritenames_reverse(ofstream &f,char *list [])
 
 	for(int j = i-1; j >= 0 ; --j)
 	{
-		// your code is here
+		f << list[j] << endl;
 	}
 }
 void freenames(char *list [])
@@ -71,7 +78,11 @@ void freenames(char *list [])
 		delete [] list[i];;
 	}
 }
+string convertToString(char *x, int size){
+    string result = "";
+    for(int i = 0; i<size; i++){
+        result = result + x[i];
+    }
 
-
-
-
+    return result;
+}
